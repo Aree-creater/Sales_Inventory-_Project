@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Smart Inventory &amp; Sales Management System</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<aside class="sidebar" id="sidebar">
+  <div class="brand">Smart Inventory</div>
+  <nav>
+    <button data-action="nav" data-view="dashboard" class="active">📊 Dashboard</button>
+    <button data-action="nav" data-view="products">📦 Products</button>
+    <button data-action="nav" data-view="sale">🛒 New Sale</button>
+    <button data-action="nav" data-view="history">🧾 Sales History</button>
+  </nav>
+  <button class="side-danger" data-action="clear-all">Clear all data</button>
+</aside>
+
+<main>
+  <header class="topbar">
+    <button class="menu" data-action="menu" aria-label="Toggle menu">☰</button>
+    <h1 id="title">Dashboard</h1>
+  </header>
+  <div id="sampleBanner" class="banner" hidden>
+    Sample products are loaded so you can try the app.
+    <button class="btn sm" data-action="clear-sample">Remove sample data</button>
+  </div>
+
+  <section id="view-dashboard" class="view"><div class="cards" id="cards"></div></section>
+
+  <section id="view-products" class="view" hidden>
+    <div class="toolbar">
+      <input id="pSearch" type="search" placeholder="Search by ID or name">
+      <select id="pCat" aria-label="Filter by category"></select>
+      <select id="pSort" aria-label="Sort products">
+        <option value="name">Name (A–Z)</option>
+        <option value="sell-asc">Selling price: low to high</option>
+        <option value="sell-desc">Selling price: high to low</option>
+        <option value="qty-asc">Quantity: low to high</option>
+        <option value="qty-desc">Quantity: high to low</option>
+      </select>
+      <button class="btn primary" data-action="add-product">+ Add product</button>
+    </div>
+    <div class="panel" id="productsBox"></div>
+  </section>
+
+  <section id="view-sale" class="view" hidden>
+    <div class="sale-grid">
+      <div class="panel">
+        <h2>Add items</h2>
+        <div class="row">
+          <select id="saleProduct" aria-label="Product"></select>
+          <input id="saleQty" type="number" min="1" step="1" value="1" aria-label="Quantity">
+          <button class="btn primary" data-action="add-cart">Add to cart</button>
+        </div>
+        <div id="cartBox"></div>
+      </div>
+      <aside class="panel" id="summary"></aside>
+    </div>
+  </section>
+
+  <section id="view-history" class="view" hidden>
+    <div class="toolbar">
+      <input id="hSearch" type="search" placeholder="Search by Sale ID">
+      <input id="hDate" type="date" aria-label="Filter by date">
+    </div>
+    <div class="panel" id="historyBox"></div>
+  </section>
+</main>
+
+<dialog id="productDlg">
+  <form id="pForm" novalidate>
+    <h2 id="formTitle">Add product</h2>
+    <div class="form-grid">
+      <label>Product ID<input name="id" autocomplete="off"></label>
+      <label>Product name<input name="name" autocomplete="off"></label>
+      <label>Category<input name="category" list="catList" autocomplete="off"></label>
+      <label>Purchase price (PKR)<input name="buy" type="number" step="0.01" min="0"></label>
+      <label>Selling price (PKR)<input name="sell" type="number" step="0.01" min="0"></label>
+      <label>Current quantity<input name="qty" type="number" step="1" min="0"></label>
+      <label>Minimum stock threshold<input name="min" type="number" step="1" min="0"></label>
+    </div>
+    <datalist id="catList"></datalist>
+    <p class="err" id="formErr" role="alert"></p>
+    <div class="actions">
+      <button type="button" class="btn" data-action="close">Cancel</button>
+      <button type="submit" class="btn primary">Save product</button>
+    </div>
+  </form>
+</dialog>
+
+<dialog id="confirmDlg">
+  <form method="dialog">
+    <p id="confirmMsg"></p>
+    <div class="actions">
+      <button value="cancel" class="btn">Cancel</button>
+      <button value="ok" id="confirmOk" class="btn primary">Confirm</button>
+    </div>
+  </form>
+</dialog>
+
+<dialog id="saleDlg">
+  <div id="saleDetail"></div>
+  <div class="actions"><button class="btn" data-action="close">Close</button></div>
+</dialog>
+
+<div id="toasts" aria-live="polite"></div>
+<script src="script.js"></script>
+</body>
+</html>
